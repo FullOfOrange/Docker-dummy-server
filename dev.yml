@@ -1,0 +1,24 @@
+version: '0.1'
+services:
+  app:
+    build: ./server
+    container_name: dummy_app
+    restart: always
+    links:
+      - mariadb:mariadb
+    volumes:
+      - ./server/dummy:/src
+    ports:
+      - '80:3000'
+
+  mariadb:
+    image: mariadb:10.4.8
+    container_name: dummy_db 
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=test
+    volumes:
+      - ./db/db_volumes:/var/lib/mysql
+      - ./db/db_volumes/conf.d:/etc/mysql/conf.d
+    ports:
+      - '13306:3306'
